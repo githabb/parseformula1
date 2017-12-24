@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Data.ParsingRaceStorage;
+using ParserLogic;
 
 namespace RaceParsing
 {
@@ -22,6 +25,11 @@ namespace RaceParsing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var connection = @"Server=DESKTOP-DE0R1IN\SQLEXPRESS;Database=ParsingRace;Trusted_Connection=True;";
+            services.AddDbContext<ParsingRaceContext>(options => options.UseSqlServer(connection));
+
+            services.AddTransient<IRacingRepository, RacingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

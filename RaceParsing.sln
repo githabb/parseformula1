@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceParsing", "RaceParsing\RaceParsing.csproj", "{9C874F19-DF25-468E-8453-DF4035E664EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceParsing", "RaceParsing\RaceParsing.csproj", "{9C874F19-DF25-468E-8453-DF4035E664EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{3EA2686D-D348-4FA7-9F6E-5FA66FAFCEF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{3EA2686D-D348-4FA7-9F6E-5FA66FAFCEF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserLogic", "ParserLogic\ParserLogic.csproj", "{B254A315-29AA-4FBC-B3AD-5EF08D8C1BF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3EA2686D-D348-4FA7-9F6E-5FA66FAFCEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA2686D-D348-4FA7-9F6E-5FA66FAFCEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA2686D-D348-4FA7-9F6E-5FA66FAFCEF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B254A315-29AA-4FBC-B3AD-5EF08D8C1BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B254A315-29AA-4FBC-B3AD-5EF08D8C1BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B254A315-29AA-4FBC-B3AD-5EF08D8C1BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B254A315-29AA-4FBC-B3AD-5EF08D8C1BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
