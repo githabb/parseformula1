@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AngleSharp.Dom.Html;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using AngleSharp.Dom.Html;
 
 
 namespace ParserLogic
@@ -11,11 +11,12 @@ namespace ParserLogic
     {
         public RaceModel Parse(IHtmlDocument document)
         {
-
             var trace = document.GetElementsByClassName("ResultsArchiveTitle").First();
 
             var raceName = trace.InnerHtml.Trim();
             string name = raceName.Substring(0, raceName.IndexOf('\n'));
+
+
             var tbody = document.GetElementsByTagName("tbody").First();
 
             var trs = tbody.GetElementsByTagName("tr");
@@ -64,7 +65,11 @@ namespace ParserLogic
                 list.Add(racingResult);
             }
 
-            return new RaceModel() {RaceName = name, RaceResults = list.ToArray()};
+            var table = document.GetElementsByClassName("resultsarchive-col-right").First().OuterHtml;
+            //document.Body.InnerHtml = table;
+            //table = document.Source.Text;
+
+            return new RaceModel() {RaceName = name, RaceResults = list.ToArray(), ResultTable = table};
         }
     }
 

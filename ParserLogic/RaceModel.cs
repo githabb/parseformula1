@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ParserLogic
+﻿namespace ParserLogic
 {
     public class RaceModel
     {
         public string RaceName { get; set; }
 
         public RacingResult[] RaceResults { get; set; }
-        
+
+        public string ResultTable { get; set; }
     }
 }

@@ -36,16 +36,39 @@ namespace RaceParsing.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(FormulaModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             _parser = new ParserWorker<RaceModel>(new FormulaParser());
             _parser.Settings = new ParserSettings() { Link = model.Link };
 
-            RaceModel parsed = await _parser.Start();
+            RaceModel parsed = null;
+            try
+            {
+                parsed = await _parser.Start();
+                ViewBag.ResultTable = parsed.ResultTable;
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(nameof(model.Link), $"Ошибка при парсинге: {ex.Message}");
+                ViewBag.ResultTable = null;
+            }
 
+            if (parsed == null)
+                return View(model);
 
-            RacingInformation info = _racingRepository.Convert(parsed);
-            await _racingRepository.Save(info);
-
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                RacingInformation info = _racingRepository.Convert(parsed);
+                await _racingRepository.Save(info);
+            }
+            catch
+            {
+                ModelState.AddModelError(nameof(model.Link), "Ошибка при сохранении данных");
+            }
+            return View(model);
         }
 
         [HttpPost]

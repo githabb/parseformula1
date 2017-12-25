@@ -1,6 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
+using System;
+using System.Threading.Tasks;
 
 namespace ParserLogic
 {
@@ -35,17 +36,43 @@ namespace ParserLogic
 
         private async Task<T> Worker()
         {
-            var source = await loader.GetPageSource();
+            string source;
+            try
+            {
+                source = await loader.GetPageSource();
+            }
+            catch
+            {
+                throw new Exception("Ошибочная ссылка на страницу");
+            }
+
+            if (source == null)
+                throw new Exception("Страница не существует");
+
             var domParser = new HtmlParser();
 
-            var document = await domParser.ParseAsync(source);
+            IHtmlDocument document;
+            try
+            {
+                document = await domParser.ParseAsync(source);
+            }
+            catch
+            {
+                throw new Exception("Ошибочный формат страницы по ссылке");
+            }
 
-            var result = Parser.Parse(document);
+            T result;
+            try
+            {
+                result = Parser.Parse(document);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ошибка при парсинге страницы");
+            }
             return result;
         }
 
-
     }
-
 
 }
