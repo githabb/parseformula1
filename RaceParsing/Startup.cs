@@ -26,7 +26,7 @@ namespace RaceParsing
         {
             services.AddMvc();
 
-            var connection = @"Server=DESKTOP-DE0R1IN\SQLEXPRESS;Database=ParsingRace;Trusted_Connection=True;";
+            var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ParsingRaceContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<IRacingRepository, RacingRepository>();

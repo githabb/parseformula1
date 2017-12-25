@@ -13,7 +13,7 @@ namespace RaceParsing.Controllers
 {
     public class HomeController : Controller
     {
-        ParserWorker<RacingResult[]> _parser;
+        ParserWorker<RaceModel> _parser;
         private IRacingRepository _racingRepository;
 
         public HomeController(IRacingRepository repository)
@@ -36,10 +36,11 @@ namespace RaceParsing.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(FormulaModel model)
         {
-            _parser = new ParserWorker<RacingResult[]>(new FormulaParser());
+            _parser = new ParserWorker<RaceModel>(new FormulaParser());
             _parser.Settings = new ParserSettings() { Link = model.Link };
 
-            RacingResult[] parsed = await _parser.Start();
+            RaceModel parsed = await _parser.Start();
+
 
             RacingInformation info = _racingRepository.Convert(parsed);
             await _racingRepository.Save(info);

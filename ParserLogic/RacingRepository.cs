@@ -17,14 +17,14 @@ namespace ParserLogic
             _context = context;
         }
 
-        public RacingInformation Convert(RacingResult[] racingResult)
+        public RacingInformation Convert(RaceModel racingResult)
         {
             RacingInformation result = new RacingInformation();
-            result.RaceData = new Race() { RaceName = "2017 FORMULA 1 PIRELLI BELGIAN GRAND PRIX" };
+            result.RaceData = new Race() { RaceName = racingResult.RaceName };
 
             result.Teams = new List<Team>();
 
-            foreach (var item in racingResult)
+            foreach (var item in racingResult.RaceResults)
             {
                 Team team = result.Teams.FirstOrDefault(x => string.Equals(x.Car, item.Car, StringComparison.InvariantCultureIgnoreCase));
                 if (team == null)

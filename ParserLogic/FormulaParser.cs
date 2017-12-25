@@ -7,10 +7,15 @@ using AngleSharp.Dom.Html;
 
 namespace ParserLogic
 {
-    public class FormulaParser : IParser<RacingResult[]>
+    public class FormulaParser : IParser<RaceModel>
     {
-        public RacingResult[] Parse(IHtmlDocument document)
+        public RaceModel Parse(IHtmlDocument document)
         {
+
+            var trace = document.GetElementsByClassName("ResultsArchiveTitle").First();
+
+            var raceName = trace.InnerHtml.Trim();
+            string name = raceName.Substring(0, raceName.IndexOf('\n'));
             var tbody = document.GetElementsByTagName("tbody").First();
 
             var trs = tbody.GetElementsByTagName("tr");
@@ -59,7 +64,7 @@ namespace ParserLogic
                 list.Add(racingResult);
             }
 
-            return list.ToArray();
+            return new RaceModel() {RaceName = name, RaceResults = list.ToArray()};
         }
     }
 

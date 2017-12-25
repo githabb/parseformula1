@@ -5,7 +5,7 @@ namespace ParserLogic
 {
     public interface IRacingRepository
     {
-        RacingInformation Convert(RacingResult[] racingResult);
+        RacingInformation Convert(RaceModel racingResult);
 
         Task<bool> Save(RacingInformation info);
     }
