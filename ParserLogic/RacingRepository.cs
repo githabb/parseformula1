@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Data;
+using Data.ParsingRaceStorage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Data.ParsingRaceStorage;
-using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using Data;
 
 namespace ParserLogic
 {
