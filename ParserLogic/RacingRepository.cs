@@ -35,9 +35,9 @@ namespace ParserLogic
                 Pilot pilot = team.Pilot.FirstOrDefault(x => x.Number == item.No);
                 if (pilot == null)
                 {
-                    pilot = new Pilot() {FirstName = item.DriverFirstName, LastName = item.DriverLastName, Number = item.No, ShortName = item.DriverShortName };
+                    pilot = new Pilot() { FirstName = item.DriverFirstName, LastName = item.DriverLastName, Number = item.No, ShortName = item.DriverShortName };
                     var oneResult = new Result() { Laps = item.Laps, Pos = item.Pos, Pts = item.Pts, Retired = item.Retired, Time = item.Time, Race = result.RaceData };
-                    pilot.Result = new List<Result>() {oneResult};
+                    pilot.Result = new List<Result>() { oneResult };
 
                     team.Pilot.Add(pilot);
                 }
@@ -48,6 +48,15 @@ namespace ParserLogic
 
         public async Task<bool> Save(RacingInformation info)
         {
+
+
+            var raceInDb = _context.Race.FirstOrDefault(r => r.RaceName == info.RaceData.RaceName);
+
+            if (raceInDb != null)
+            {
+                return false;
+
+            }
             _context.Race.Attach(info.RaceData);
 
             _context.Team.AttachRange(info.Teams);

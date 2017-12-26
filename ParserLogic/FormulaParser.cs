@@ -56,6 +56,7 @@ namespace ParserLogic
                 {
                     string secondStr = timeStr.Substring(0, timeStr.IndexOf('<'));
                     decimal seconds = decimal.Parse(secondStr, CultureInfo.InvariantCulture);
+
                     racingResult.Retired = new TimeSpan(0, 0, 0, (int)seconds, (int)((seconds - (int)seconds) * 1000));
 
                 }
