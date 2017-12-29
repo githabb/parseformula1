@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParserLogic
 {
@@ -37,7 +38,7 @@ namespace ParserLogic
                 {
                     pilot = new Pilot() { FirstName = item.DriverFirstName, LastName = item.DriverLastName, Number = item.No, ShortName = item.DriverShortName };
                     var oneResult = new Result() { Laps = item.Laps, Pos = item.Pos, Pts = item.Pts, Retired = item.Retired, Time = item.Time, Race = result.RaceData };
-                    pilot.Result = new List<Result>() { oneResult };
+                    pilot.Result.Add( oneResult );
 
                     team.Pilot.Add(pilot);
                 }
@@ -48,18 +49,46 @@ namespace ParserLogic
 
         public async Task<bool> Save(RacingInformation info)
         {
-
-
-            var raceInDb = _context.Race.FirstOrDefault(r => r.RaceName == info.RaceData.RaceName);
+            
+            var raceInDb = await _context.Race.FirstOrDefaultAsync(r => r.RaceName == info.RaceData.RaceName);
 
             if (raceInDb != null)
             {
                 return false;
-
             }
-            _context.Race.Attach(info.RaceData);
 
-            _context.Team.AttachRange(info.Teams);
+            _context.Race.Attach(info.RaceData);
+            
+            foreach (var item in info.Teams)
+            {
+                var team = await _context.Team.FirstOrDefaultAsync(t => t.Car == item.Car);              
+
+                if (team == null)
+                {
+                    _context.Team.Attach(item);
+                }
+                else
+                {
+                    foreach (var pilot in item.Pilot)
+                    {
+                        var p = await _context.Pilot.FirstOrDefaultAsync(h => h.Number == pilot.Number);
+
+                        if (p != null)
+                        {
+                            foreach (var result in pilot.Result)
+                            {
+                                result.PilotId = p.Id;
+                                _context.Result.Attach(result);
+                            }
+                        }
+                        else
+                        {
+                            pilot.TeamId = team.Id;
+                            _context.Pilot.Attach(pilot);
+                        }
+                    }
+                }                                            
+            }                     
 
             var count = await _context.SaveChangesAsync();
 

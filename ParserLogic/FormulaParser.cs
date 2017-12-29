@@ -43,7 +43,7 @@ namespace ParserLogic
                 string timeStr = item.Children[6].InnerHtml;
                 if (item.Children[6].ChildElementCount == 0)
                 {
-                    if (timeStr == "DNF")
+                    if (timeStr == "DNF" || timeStr == "DNS")
                     {
                         racingResult.Time = null;
                     }
